@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\User\" />
+    <Folder Include="DTOs\Bid\" />
+    <Folder Include="DTOs\Tender\" />
+    <Folder Include="DTOs\User\" />
+    <Folder Include="Queries\Bid\" />
+    <Folder Include="Queries\Tender\" />
+    <Folder Include="Queries\User\" />
+    <Folder Include="Services\Bid\" />
+    <Folder Include="Services\Tender\" />
+    <Folder Include="Services\User\" />
+  </ItemGroup>
+
+</Project>
