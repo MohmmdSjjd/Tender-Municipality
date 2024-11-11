@@ -10,4 +10,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Bid\" />
+    <Folder Include="Repositories\Tender\" />
+    <Folder Include="Repositories\User\" />
+  </ItemGroup>
+
 </Project>

@@ -10,13 +10,18 @@
     <Folder Include="Commands\User\" />
     <Folder Include="DTOs\Bid\" />
     <Folder Include="DTOs\Tender\" />
-    <Folder Include="DTOs\User\" />
     <Folder Include="Queries\Bid\" />
     <Folder Include="Queries\Tender\" />
     <Folder Include="Queries\User\" />
-    <Folder Include="Services\Bid\" />
-    <Folder Include="Services\Tender\" />
-    <Folder Include="Services\User\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InfraStructure\InfraStructure.csproj" />
   </ItemGroup>
 
 </Project>
