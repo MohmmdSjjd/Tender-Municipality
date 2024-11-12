@@ -8,6 +8,5 @@ public interface IUserService
 {
     Task<RegisterResponse> RegisterAsync(RegisterRequest request);
     Task<AuthResponse> LoginAsync(LoginRequest request);
-    Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request);
     Task<AddRoleResponse> AddRoleToUserAsync(AddRoleRequest request);
 }

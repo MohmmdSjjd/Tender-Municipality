@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.DTOs.User;
+using Application.Exceptions;
 using Application.Interfaces.User;
 using Domain.Models.User;
 using InfraStructure.Security.JWT;
@@ -13,12 +14,14 @@ namespace Application.Services.User
         private readonly UserManager<TenderUser> _userManager;
         private readonly SignInManager<TenderUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserService(UserManager<TenderUser> userManager, SignInManager<TenderUser> signInManager, ITokenService tokenService)
+        public UserService(UserManager<TenderUser> userManager, SignInManager<TenderUser> signInManager, ITokenService tokenService,RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _roleManager = roleManager;
         }
 
         public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
@@ -28,7 +31,7 @@ namespace Application.Services.User
 
             if (!result.Succeeded)
             {
-                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+               throw new ApiException(string.Join(", ", result.Errors.Select(e => e.Description)),400);
             }
 
             return new RegisterResponse(user, "ثبت نام با موفقیت انجام شد");
@@ -47,25 +50,11 @@ namespace Application.Services.User
             {
                 throw new Exception(" رمز عبور اشتباه است");
             }
+            
+            var userRoles = await _userManager.GetRolesAsync(user);
 
-            var token = _tokenService.GenerateToken(user);
+            var token = _tokenService.GenerateToken(user,userRoles);
             return new AuthResponse(token, DateTime.Now.AddHours(1), user.Id, user.UserName ?? string.Empty, "ورود با موفقیت انجام شد");
-        }
-
-        public async Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request)
-        {
-            // Validate the refresh token and get the user
-            var user = await _userManager.FindByIdAsync(request.Token);
-            if (user == null)
-            {
-                
-                throw new Exception("توکن نامعتبر است");
-            }
-
-            // Generate a new token
-            var newToken = _tokenService.GenerateToken(user);
-            return new AuthResponse(newToken, DateTime.Now.AddHours(1), user.Id, user.UserName ?? string.Empty, " توکن جدید با موفقیت ایجاد شد");
-
         }
 
         public async Task<AddRoleResponse> AddRoleToUserAsync(AddRoleRequest request)

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Models.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Domain.Models.User;
 
 namespace InfraStructure.Security.JWT
 {
@@ -25,13 +25,15 @@ namespace InfraStructure.Security.JWT
             _audience = configuration["JwtSettings:Audience"]!;
         }
 
-        public string GenerateToken(TenderUser user)
+        public string GenerateToken(TenderUser user, IList<string> userRoles)
         {
-            var claims = new[]
+            var claims = new List<Claim>()
             {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
-                };
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!)
+
+            };
+            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

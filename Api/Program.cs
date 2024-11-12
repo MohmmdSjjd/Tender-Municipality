@@ -1,7 +1,9 @@
 using System.Text;
+using Api.Middlewares;
 using Application.Interfaces.User;
 using Application.Services.User;
 using Domain.Models.User;
+using InfraStructure.Configuration.ErrorDescriber;
 using InfraStructure.Data;
 using InfraStructure.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,7 +24,17 @@ builder.Services.AddDbContext<TenderContext>(options =>
 
 #region Identity
 builder.Services.AddIdentity<TenderUser, IdentityRole>()
-    .AddEntityFrameworkStores<TenderContext>();
+    .AddEntityFrameworkStores<TenderContext>()
+    //.AddUserValidator<UserValidator>()
+    .AddErrorDescriber<CustomIdentityErrorDescriber>();
+#endregion
+
+#region Authorization
+builder.Services.AddAuthorization(config =>
+{
+    config.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    config.AddPolicy("Contractor", policy => policy.RequireRole("Contractor"));
+});
 #endregion
 
 #region IOC
@@ -107,7 +119,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,11 +1,20 @@
-﻿namespace Domain.Models.Bid
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Models.Bid
 {
     public class Bid
     {
         public Guid Id { get; }
-        public decimal Price { get; }
-        public Guid UserId { get; }
-        public Guid TenderId { get; }
+
+        [Required(ErrorMessage = "قیمت پیشنهادی نمی‌تواند خالی باشد")]
+        [Range(0, double.MaxValue, ErrorMessage = "قیمت پیشنهادی باید عددی مثبت باشد")]
+        public decimal Price { get; private set; }
+
+        [Required(ErrorMessage = "شناسه کاربر نمی‌تواند خالی باشد")]
+        public Guid UserId { get; private set; }
+
+        [Required(ErrorMessage = "شناسه مناقصه نمی‌تواند خالی باشد")]
+        public Guid TenderId { get; private set; }
 
         private Bid()
         {

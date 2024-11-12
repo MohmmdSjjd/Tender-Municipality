@@ -1,8 +1,13 @@
-﻿namespace Domain.Models.Tender.Value_Object;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Models.Tender.Value_Object;
 
 public class TenderDate
 {
+    [Required(ErrorMessage = "تاریخ شروع نمی‌تواند خالی باشد")]
     public DateTime StartDate { get; }
+
+    [Required(ErrorMessage = "تاریخ پایان نمی‌تواند خالی باشد")]
     public DateTime EndDate { get; }
 
     public TenderDate(DateTime startDate, DateTime endDate)

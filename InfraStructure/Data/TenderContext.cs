@@ -11,6 +11,8 @@ namespace InfraStructure.Data
     {
         public TenderContext(DbContextOptions<TenderContext> options) : base(options)
         {
+            //var connectionString = Database.GetConnectionString();
+            //Database.EnsureCreatedAsync();
         }
         public DbSet<Tender> Tenders { get; set; }
         public DbSet<Bid> Bids { get; set; }

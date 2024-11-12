@@ -16,15 +16,8 @@ namespace InfraStructure.Configuration.DbContext
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Price)
-                .IsRequired()
-                .HasPrecision(3)
                 .HasColumnType("decimal(18,3)");
 
-            builder.Property(x => x.UserId)
-                .IsRequired();
-
-            builder.Property(x => x.TenderId)
-                .IsRequired();
         }
     }
 }
