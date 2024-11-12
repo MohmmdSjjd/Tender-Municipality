@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models.Tender;
+﻿using Domain.Models.Tender;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace InfraStructure.Configuration.DbContext
+namespace InfraStructure.Configurations.DbContext
 {
     public class TenderTypeConfiguration : IEntityTypeConfiguration<Tender>
     {
         public void Configure(EntityTypeBuilder<Tender> builder)
         {
             builder.HasKey(t => t.Id);
+
+            builder.Property(t => t.Title)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            builder.Property(t => t.Description)
+                .HasMaxLength(500)
+                .IsRequired();
 
             builder.OwnsOne(t => t.TenderDate, td =>
             {
@@ -35,7 +38,7 @@ namespace InfraStructure.Configuration.DbContext
             });
 
             builder.HasMany(t => t.Bids)
-                .WithOne()
+                .WithOne(x=>x.Tender)
                 .HasForeignKey(b => b.TenderId);
         }
     }

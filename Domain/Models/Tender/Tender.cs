@@ -32,29 +32,29 @@ namespace Domain.Models.Tender
             Bids = new List<Bid.Bid>();
         }
 
-        // بررسی فعال بودن مناقصه
-        public bool IsActive()
-        {
-            return TenderDate.IsActive();
-        }
+        //// بررسی فعال بودن مناقصه
+        //public bool IsActive()
+        //{
+        //    return TenderDate.IsActive();
+        //}
 
-        // بررسی منقضی شدن مناقصه
-        public bool IsExpired()
-        {
-            return TenderDate.IsExpired();
-        }
+        //// بررسی منقضی شدن مناقصه
+        //public bool IsExpired()
+        //{
+        //    return TenderDate.IsExpired();
+        //}
 
-        // بررسی بودجه
-        private void CheckBudget(decimal amount)
-        {
-            Budget.CheckAmount(amount);
-        }
+        //// بررسی بودجه
+        //private void CheckBudget(decimal amount)
+        //{
+        //    Budget.CheckAmount(amount);
+        //}
 
-        // افزودن پیشنهاد به مناقصه
-        public void AddBid(decimal price, Guid userId)
-        {
-            CheckBudget(price);
-            Bids.Add(new Bid.Bid(price, userId, Id));
-        }
+        //// افزودن پیشنهاد به مناقصه
+        //public void AddBid(decimal price, Guid userId)
+        //{
+        //    CheckBudget(price);
+        //    Bids.Add(new Bid.Bid(price, userId, Id));
+        //}
     }
 }

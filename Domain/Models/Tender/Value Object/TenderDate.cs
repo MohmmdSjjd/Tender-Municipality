@@ -12,9 +12,6 @@ public class TenderDate
 
     public TenderDate(DateTime startDate, DateTime endDate)
     {
-        if (startDate >= endDate) 
-            throw new Exception("زمان شروع باید قبل از زمان پایان باشد");
-        
         StartDate = startDate;
         EndDate = endDate;
     }
@@ -25,10 +22,10 @@ public class TenderDate
         return now >= StartDate && now <= EndDate;
     }
 
-    // check if the tender is expired
-    public bool IsExpired()
+    // check tender date is valid
+    public bool IsValid()
     {
-        var now = DateTime.Now;
-        return now > EndDate;
+        return StartDate < EndDate;
     }
+
 }

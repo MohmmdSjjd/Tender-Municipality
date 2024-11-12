@@ -15,7 +15,7 @@ namespace InfraStructure.Data
             //Database.EnsureCreatedAsync();
         }
         public DbSet<Tender> Tenders { get; set; }
-        public DbSet<Bid> Bids { get; set; }
+        public DbSet<Bid?> Bids { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

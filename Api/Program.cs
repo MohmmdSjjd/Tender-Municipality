@@ -1,10 +1,14 @@
 using System.Text;
 using Api.Middlewares;
+using Application.Interfaces.Tender;
 using Application.Interfaces.User;
+using Application.Services.Tender;
 using Application.Services.User;
 using Domain.Models.User;
+using Domain.Repositories;
 using InfraStructure.Configuration.ErrorDescriber;
 using InfraStructure.Data;
+using InfraStructure.Repositories;
 using InfraStructure.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -40,6 +44,14 @@ builder.Services.AddAuthorization(config =>
 #region IOC
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+// Repositories
+builder.Services.AddScoped<ITenderRepository, TenderRepository>();
+builder.Services.AddScoped<IBidRepository, BidRepository>();
+// Services
+builder.Services.AddScoped<ITenderQueryService, TenderQueryService>();
+builder.Services.AddScoped<ITenderCommandService, TenderCommandService>();
+
+
 #endregion
 
 #region JWT

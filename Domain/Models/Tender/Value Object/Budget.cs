@@ -15,26 +15,13 @@ public class Budget
 
     public Budget(decimal bigAmount, decimal smallAmount)
     {
-        if (bigAmount <= smallAmount)
-        {
-            throw new ArgumentException("حداقل مبلغ مجاز نمی تواند بیشتر یا برابر با حداکثر مبلغ مجاز باشد");
-        }
-
-        if (bigAmount <= 0 || smallAmount <= 0)
-        {
-            throw new ArgumentException("مقادیر وارد شده نمی تواند صفر یا منفی باشد");
-        }
-
         BigAmount = bigAmount;
         SmallAmount = smallAmount;
     }
 
     // this method is used to check the amount of the budget in bid time
-    public void CheckAmount(decimal amount)
+    public bool CheckAmount()
     {
-        if (amount < SmallAmount || amount > BigAmount || amount <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(amount), "مبلغ پیشنهاد باید بین حداقل مبلغ مجاز و حداکثر مبلغ مجاز باشد");
-        }
+        return BigAmount > 0 && SmallAmount >= 0 && BigAmount > SmallAmount;
     }
 }

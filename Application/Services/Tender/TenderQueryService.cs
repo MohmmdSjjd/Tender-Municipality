@@ -1,5 +1,7 @@
-﻿namespace Application.Services.Tender;
+﻿using Application.Interfaces.Tender;
 
-public class TenderQueryService
+namespace Application.Services.Tender;
+
+public class TenderQueryService : ITenderQueryService
 {
 }

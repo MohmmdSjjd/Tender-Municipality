@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.Models.User;
 
 namespace Domain.Models.Bid
 {
@@ -11,15 +12,19 @@ namespace Domain.Models.Bid
         public decimal Price { get; private set; }
 
         [Required(ErrorMessage = "شناسه کاربر نمی‌تواند خالی باشد")]
-        public Guid UserId { get; private set; }
+        public string UserId { get; private set; }
+
+        public TenderUser User { get; private set; }
 
         [Required(ErrorMessage = "شناسه مناقصه نمی‌تواند خالی باشد")]
         public Guid TenderId { get; private set; }
 
+        public Tender.Tender Tender { get; private set; }
+
         private Bid()
         {
         }
-        public Bid(decimal price, Guid userId, Guid tenderId)
+        public Bid(decimal price, string userId, Guid tenderId, Tender.Tender tender, TenderUser user)
         {
             if (price <= 0)
             {
@@ -30,6 +35,17 @@ namespace Domain.Models.Bid
             Price = price;
             UserId = userId;
             TenderId = tenderId;
+            Tender = tender;
+            User = user;
+        }
+
+        public void Update(decimal price)
+        {
+            if (price <= 0)
+            {
+                throw new ArgumentException("قیمت نمی تواند صفر یا کمتر از صفر باشد", nameof(price));
+            }
+            Price = price;
         }
     }
 }

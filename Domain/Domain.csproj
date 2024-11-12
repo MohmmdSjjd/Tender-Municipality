@@ -11,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Bid\" />
-    <Folder Include="Repositories\Tender\" />
-    <Folder Include="Repositories\User\" />
+    <Folder Include="Models\Tender\DTO\" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,6 @@ namespace Application.Interfaces.User;
 public interface IUserService
 {
     Task<RegisterResponse> RegisterAsync(RegisterRequest request);
-    Task<AuthResponse> LoginAsync(LoginRequest request);
+    Task<LoginResponse> LoginAsync(LoginRequest request);
     Task<AddRoleResponse> AddRoleToUserAsync(AddRoleRequest request);
 }

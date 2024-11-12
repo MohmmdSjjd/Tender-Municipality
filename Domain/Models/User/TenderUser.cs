@@ -2,7 +2,7 @@
 
 namespace Domain.Models.User
 {
-    public class TenderUser : IdentityUser
+    public sealed class TenderUser : IdentityUser
     {
     }
 }
