@@ -17,7 +17,7 @@ namespace Domain.Models.Tender
 
         public TenderDate TenderDate { get; }
         public Budget Budget { get; }
-        public List<Bid.Bid> Bids { get; }
+        public List<Bid.Bid> Bids { get;}
         private Tender()
         {
         }
@@ -32,29 +32,9 @@ namespace Domain.Models.Tender
             Bids = new List<Bid.Bid>();
         }
 
-        //// بررسی فعال بودن مناقصه
-        //public bool IsActive()
-        //{
-        //    return TenderDate.IsActive();
-        //}
-
-        //// بررسی منقضی شدن مناقصه
-        //public bool IsExpired()
-        //{
-        //    return TenderDate.IsExpired();
-        //}
-
-        //// بررسی بودجه
-        //private void CheckBudget(decimal amount)
-        //{
-        //    Budget.CheckAmount(amount);
-        //}
-
-        //// افزودن پیشنهاد به مناقصه
-        //public void AddBid(decimal price, Guid userId)
-        //{
-        //    CheckBudget(price);
-        //    Bids.Add(new Bid.Bid(price, userId, Id));
-        //}
+        public bool CheckBudget(decimal price)
+        {
+            return Budget.CheckAmount(price);
+        }
     }
 }

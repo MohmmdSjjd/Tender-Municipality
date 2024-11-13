@@ -46,7 +46,7 @@ public class TenderCommandService : ITenderCommandService
         var addedTender = await _tenderRepository.AddTenderAsync(tender);
 
         // Create a new TenderResponse object
-        var response = new TenderResponseWithMessage(addedTender.Title, addedTender.Description, addedTender.TenderDate, addedTender.Budget, "مناقصه با موفقیت ایجاد شد");
+        var response = new TenderResponseWithMessage(addedTender.Id, addedTender.Title, addedTender.Description, addedTender.TenderDate, addedTender.Budget, "مناقصه با موفقیت ایجاد شد");
 
         return response;
     }
@@ -54,7 +54,7 @@ public class TenderCommandService : ITenderCommandService
     public async Task<List<TenderResponseWithActiveStatus>> GetAllTendersAsync()
     {
         var getAllTender = await _tenderRepository.GetAllTenderAsync();
-        return getAllTender.Select(t => new TenderResponseWithActiveStatus(t.Title, t.Description, t.TenderDate, t.Budget, t.TenderDate.IsActive())).ToList();
+        return getAllTender.Select(t => new TenderResponseWithActiveStatus(t.TenderId, t.Title, t.Description, t.TenderDate, t.Budget, t.TenderDate.IsActive()) { Bids = t.Bids, Winner = t.WinnerBid }).ToList();
 
     }
 

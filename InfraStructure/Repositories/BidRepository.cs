@@ -14,18 +14,17 @@ namespace InfraStructure.Repositories
             _context = context;
         }
 
-        public async Task<List<Bid?>> GetAllAsync()
-        {
-            return await _context.Bids.ToListAsync();
-        }
-
         public async Task<Bid> AddAsync(Bid bid)
         {
-            await _context.Bids.AddAsync(bid);
+            var a = await _context.Bids.AddAsync(bid);
             await _context.SaveChangesAsync();
 
             return bid;
         }
-        
+
+        public async Task<bool> CheckBidExist(decimal price, Guid tenderId, string userId)
+        {
+            return await _context.Bids.AnyAsync(b => b.Price == price && b.TenderId == tenderId && b.UserId == userId);
+        }
     }
 }

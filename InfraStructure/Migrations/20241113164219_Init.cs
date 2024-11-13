@@ -59,8 +59,8 @@ namespace InfraStructure.Migrations
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BigAmount = table.Column<decimal>(type: "decimal(18,3)", precision: 3, nullable: false),
-                    SmallAmount = table.Column<decimal>(type: "decimal(18,3)", precision: 3, nullable: false)
+                    BigAmount = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    SmallAmount = table.Column<decimal>(type: "decimal(18,3)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -178,13 +178,19 @@ namespace InfraStructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,3)", precision: 3, nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bids", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bids_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bids_Tenders_TenderId",
                         column: x => x.TenderId,
@@ -236,6 +242,11 @@ namespace InfraStructure.Migrations
                 name: "IX_Bids_TenderId",
                 table: "Bids",
                 column: "TenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bids_UserId",
+                table: "Bids",
+                column: "UserId");
         }
 
         /// <inheritdoc />

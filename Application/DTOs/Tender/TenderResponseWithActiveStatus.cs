@@ -1,12 +1,14 @@
-﻿using Domain.Models.Tender.Value_Object;
+﻿using Domain.Models.Bid.DTOs;
+using Domain.Models.Tender.Value_Object;
 
 namespace Application.DTOs.Tender;
 
 public class TenderResponseWithActiveStatus : BaseTenderResponse
 {
     public bool IsActive { get; set; }
+    public BidDto Winner { get; set; }
 
-    public TenderResponseWithActiveStatus(string title, string description, TenderDate tenderDate, Budget budget, bool isActive) : base(title, description, tenderDate, budget)
+    public TenderResponseWithActiveStatus(Guid id,string title, string description, TenderDate tenderDate, Budget budget, bool isActive) : base(id,title, description, tenderDate, budget)
     {
         IsActive = isActive;
     }

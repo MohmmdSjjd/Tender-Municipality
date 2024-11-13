@@ -12,6 +12,10 @@ namespace InfraStructure.Configurations.DbContext
 
             builder.Property(x => x.Price)
                 .HasColumnType("decimal(18,3)");
+
+            builder.HasIndex(x => x.UserId)
+                .IsUnique(false);
+
         }
     }
 }

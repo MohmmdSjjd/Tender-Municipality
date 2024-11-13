@@ -24,4 +24,9 @@ public class Budget
     {
         return BigAmount > 0 && SmallAmount >= 0 && BigAmount > SmallAmount;
     }
+
+    public bool CheckAmount(decimal price)
+    {
+        return price >= SmallAmount && price <= BigAmount;
+    }
 }

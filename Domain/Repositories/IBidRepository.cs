@@ -4,7 +4,7 @@ namespace Domain.Repositories
 {
     public interface IBidRepository
     {
-        Task<List<Bid?>> GetAllAsync();
         Task<Bid> AddAsync(Bid bid);
+        Task<bool> CheckBidExist(decimal price, Guid tenderId, string userId);
     }
 }

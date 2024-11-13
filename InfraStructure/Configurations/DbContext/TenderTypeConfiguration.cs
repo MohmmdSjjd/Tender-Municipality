@@ -38,7 +38,7 @@ namespace InfraStructure.Configurations.DbContext
             });
 
             builder.HasMany(t => t.Bids)
-                .WithOne(x=>x.Tender)
+                .WithOne()
                 .HasForeignKey(b => b.TenderId);
         }
     }

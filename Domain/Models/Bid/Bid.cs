@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Models.User;
 
 namespace Domain.Models.Bid
@@ -12,40 +13,23 @@ namespace Domain.Models.Bid
         public decimal Price { get; private set; }
 
         [Required(ErrorMessage = "شناسه کاربر نمی‌تواند خالی باشد")]
+        [ForeignKey("User")]
         public string UserId { get; private set; }
 
-        public TenderUser User { get; private set; }
+        public TenderUser User { get; }
 
         [Required(ErrorMessage = "شناسه مناقصه نمی‌تواند خالی باشد")]
         public Guid TenderId { get; private set; }
 
-        public Tender.Tender Tender { get; private set; }
-
         private Bid()
         {
         }
-        public Bid(decimal price, string userId, Guid tenderId, Tender.Tender tender, TenderUser user)
+        public Bid(decimal price, string userId, Guid tenderId)
         {
-            if (price <= 0)
-            {
-                throw new ArgumentException("قیمت نمی تواند صفر یا کمتر از صفر باشد", nameof(price));
-
-            }
             Id = Guid.NewGuid();
             Price = price;
             UserId = userId;
             TenderId = tenderId;
-            Tender = tender;
-            User = user;
-        }
-
-        public void Update(decimal price)
-        {
-            if (price <= 0)
-            {
-                throw new ArgumentException("قیمت نمی تواند صفر یا کمتر از صفر باشد", nameof(price));
-            }
-            Price = price;
         }
     }
 }

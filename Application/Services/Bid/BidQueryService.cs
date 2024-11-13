@@ -1,5 +1,7 @@
-﻿namespace Application.Services.Bid;
+﻿using Application.Interfaces.Bid;
 
-public class BidQueryService
+namespace Application.Services.Bid;
+
+public class BidQueryService : IBidQueryService
 {
 }

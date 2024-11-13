@@ -5,7 +5,8 @@ namespace Domain.Repositories;
 
 public interface ITenderRepository
 {
-    Task<List<Tender>> GetAllTenderAsync();
+    Task<Tender?> FindByIdAsync(Guid tenderId);
+    Task<List<FinishedTender>> GetAllTenderAsync();
     Task<Tender> AddTenderAsync(Tender tender);
     Task<List<TenderWithDetails>> GetInProcessTendersWithDetailsAsync();
 }

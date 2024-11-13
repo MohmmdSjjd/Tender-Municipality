@@ -1,7 +1,10 @@
+#region Using
 using System.Text;
 using Api.Middlewares;
+using Application.Interfaces.Bid;
 using Application.Interfaces.Tender;
 using Application.Interfaces.User;
+using Application.Services.Bid;
 using Application.Services.Tender;
 using Application.Services.User;
 using Domain.Models.User;
@@ -15,10 +18,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+#endregion
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+//    .AddNewtonsoftJson(options =>
+//{
+//    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+//});
 builder.Services.AddEndpointsApiExplorer();
 
 #region EF Core
@@ -50,6 +60,8 @@ builder.Services.AddScoped<IBidRepository, BidRepository>();
 // Services
 builder.Services.AddScoped<ITenderQueryService, TenderQueryService>();
 builder.Services.AddScoped<ITenderCommandService, TenderCommandService>();
+builder.Services.AddScoped<IBidCommandService, BidCommandService>();
+builder.Services.AddScoped<IBidQueryService, BidQueryService>();
 
 
 #endregion

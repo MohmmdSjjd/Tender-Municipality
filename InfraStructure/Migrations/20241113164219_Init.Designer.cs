@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfraStructure.Migrations
 {
     [DbContext(typeof(TenderContext))]
-    [Migration("20241111084353_Init")]
+    [Migration("20241113164219_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -32,18 +32,20 @@ namespace InfraStructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(3)
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<Guid>("TenderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TenderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bids");
                 });
@@ -69,7 +71,7 @@ namespace InfraStructure.Migrations
                     b.ToTable("Tenders");
                 });
 
-            modelBuilder.Entity("InfraStructure.Configuration.IdentityConfiguration.TenderUser", b =>
+            modelBuilder.Entity("Domain.Models.User.TenderUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -274,6 +276,14 @@ namespace InfraStructure.Migrations
                         .HasForeignKey("TenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Models.User.TenderUser", "User")
+                        .WithOne()
+                        .HasForeignKey("Domain.Models.Bid.Bid", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Models.Tender.Tender", b =>
@@ -284,12 +294,10 @@ namespace InfraStructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("BigAmount")
-                                .HasPrecision(3)
                                 .HasColumnType("decimal(18,3)")
                                 .HasColumnName("BigAmount");
 
                             b1.Property<decimal>("SmallAmount")
-                                .HasPrecision(3)
                                 .HasColumnType("decimal(18,3)")
                                 .HasColumnName("SmallAmount");
 
@@ -340,7 +348,7 @@ namespace InfraStructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("InfraStructure.Configuration.IdentityConfiguration.TenderUser", null)
+                    b.HasOne("Domain.Models.User.TenderUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -349,7 +357,7 @@ namespace InfraStructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("InfraStructure.Configuration.IdentityConfiguration.TenderUser", null)
+                    b.HasOne("Domain.Models.User.TenderUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -364,7 +372,7 @@ namespace InfraStructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InfraStructure.Configuration.IdentityConfiguration.TenderUser", null)
+                    b.HasOne("Domain.Models.User.TenderUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -373,7 +381,7 @@ namespace InfraStructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("InfraStructure.Configuration.IdentityConfiguration.TenderUser", null)
+                    b.HasOne("Domain.Models.User.TenderUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

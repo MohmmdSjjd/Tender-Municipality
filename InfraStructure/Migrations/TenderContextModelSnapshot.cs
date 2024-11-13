@@ -42,8 +42,7 @@ namespace InfraStructure.Migrations
 
                     b.HasIndex("TenderId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bids");
                 });
@@ -269,7 +268,7 @@ namespace InfraStructure.Migrations
 
             modelBuilder.Entity("Domain.Models.Bid.Bid", b =>
                 {
-                    b.HasOne("Domain.Models.Tender.Tender", "Tender")
+                    b.HasOne("Domain.Models.Tender.Tender", null)
                         .WithMany("Bids")
                         .HasForeignKey("TenderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -280,8 +279,6 @@ namespace InfraStructure.Migrations
                         .HasForeignKey("Domain.Models.Bid.Bid", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Tender");
 
                     b.Navigation("User");
                 });
