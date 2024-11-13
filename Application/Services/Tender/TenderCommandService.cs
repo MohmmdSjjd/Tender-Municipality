@@ -1,8 +1,10 @@
 ﻿using Application.DTOs.Tender;
+using Application.Exceptions;
 using Application.Interfaces.Tender;
 using Domain.Models.Tender.DTO;
 using Domain.Models.Tender.Value_Object;
 using Domain.Repositories;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services.Tender;
 
@@ -28,7 +30,7 @@ public class TenderCommandService : ITenderCommandService
 
         if (!tenderDate.IsValid())
         {
-            throw new ArgumentException("تاریخ شروع و پایان مناقصه نامعتبر است");
+            throw new ApiException("تاریخ شروع و پایان مناقصه نامعتبر است", StatusCodes.Status400BadRequest);
         }
 
         // Create a new Budget object
@@ -36,7 +38,7 @@ public class TenderCommandService : ITenderCommandService
 
         if (!budget.CheckAmount())
         {
-            throw new ArgumentException("مبلغ مناقصه نامعتبر است");
+            throw new ApiException("مبلغ مناقصه نامعتبر است", StatusCodes.Status400BadRequest);
         }
 
         // Create a new Tender object
@@ -49,18 +51,5 @@ public class TenderCommandService : ITenderCommandService
         var response = new TenderResponseWithMessage(addedTender.Id, addedTender.Title, addedTender.Description, addedTender.TenderDate, addedTender.Budget, "مناقصه با موفقیت ایجاد شد");
 
         return response;
-    }
-
-    public async Task<List<TenderResponseWithActiveStatus>> GetAllTendersAsync()
-    {
-        var getAllTender = await _tenderRepository.GetAllTenderAsync();
-        return getAllTender.Select(t => new TenderResponseWithActiveStatus(t.TenderId, t.Title, t.Description, t.TenderDate, t.Budget, t.TenderDate.IsActive()) { Bids = t.Bids, Winner = t.WinnerBid }).ToList();
-
-    }
-
-    public async Task<List<TenderWithDetails>> GetInProcessTendersWithDetailsAsync()
-    {
-        var tendersWithDetails = await _tenderRepository.GetInProcessTendersWithDetailsAsync();
-        return tendersWithDetails.Where(t => t.TenderDate.IsActive()).ToList();
     }
 }
