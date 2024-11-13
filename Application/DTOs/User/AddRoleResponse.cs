@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs.User;
 
-public class AddRoleResponse:ResponseBase
+public class AddRoleResponse : BaseResponse
 {
     public string UserId { get; set; }
     public string UserName { get; set; }

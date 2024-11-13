@@ -1,6 +1,6 @@
 namespace Application.DTOs.User;
 
-public class LoginResponse:ResponseBase
+public class LoginResponse: BaseResponse
 {
     public string Token { get; set; }
     public DateTime Expiration { get; set; }

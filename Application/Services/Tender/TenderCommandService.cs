@@ -15,7 +15,7 @@ public class TenderCommandService : ITenderCommandService
         _tenderRepository = tenderRepository;
     }
 
-    public async Task<TenderResponse> CreateTenderAsync(TenderRequest request)
+    public async Task<TenderResponseWithMessage> CreateTenderAsync(TenderRequest request)
     {
         // Validate the request
         if (request == null)
@@ -25,8 +25,8 @@ public class TenderCommandService : ITenderCommandService
 
         // Create a new TenderDate object
         var tenderDate = new TenderDate(request.TenderDate.StartDate, request.TenderDate.EndDate);
-        
-        if(!tenderDate.IsValid())
+
+        if (!tenderDate.IsValid())
         {
             throw new ArgumentException("تاریخ شروع و پایان مناقصه نامعتبر است");
         }
@@ -46,14 +46,16 @@ public class TenderCommandService : ITenderCommandService
         var addedTender = await _tenderRepository.AddTenderAsync(tender);
 
         // Create a new TenderResponse object
-        var response = new TenderResponse(addedTender.Title, addedTender.Description, addedTender.TenderDate, addedTender.Budget, "Tender created successfully");
+        var response = new TenderResponseWithMessage(addedTender.Title, addedTender.Description, addedTender.TenderDate, addedTender.Budget, "مناقصه با موفقیت ایجاد شد");
 
         return response;
     }
 
-    public async Task<List<Domain.Models.Tender.Tender>> GetAllTendersAsync()
+    public async Task<List<TenderResponseWithActiveStatus>> GetAllTendersAsync()
     {
-        return await _tenderRepository.GetAllTenderAsync();
+        var getAllTender = await _tenderRepository.GetAllTenderAsync();
+        return getAllTender.Select(t => new TenderResponseWithActiveStatus(t.Title, t.Description, t.TenderDate, t.Budget, t.TenderDate.IsActive())).ToList();
+
     }
 
     public async Task<List<TenderWithDetails>> GetInProcessTendersWithDetailsAsync()

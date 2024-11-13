@@ -1,10 +1,10 @@
-namespace Application.DTOs
+namespace Application.DTOs.User
 {
-    public class ResponseBase
+    public class BaseResponse
     {
         public string Message { get; set; }
 
-        public ResponseBase(string message)
+        public BaseResponse(string message)
         {
             Message = message;
         }
