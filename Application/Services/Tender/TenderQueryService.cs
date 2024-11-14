@@ -1,5 +1,7 @@
 ﻿using Application.DTOs.Tender;
 using Application.Interfaces.Tender;
+using Application.Queries.Tender.GetAllTenders;
+using Application.Queries.Tender.GetInProcessTendersWithDetails;
 using Domain.Models.Tender.DTO;
 using Domain.Repositories;
 
@@ -8,22 +10,24 @@ namespace Application.Services.Tender;
 public class TenderQueryService : ITenderQueryService
 {
     private readonly ITenderRepository _tenderRepository;
+    private readonly IGetAllTendersQueryHandler _getAllTendersQueryHandler;
+    private readonly IGetInProcessTendersWithDetailsHandler _getInProcessTendersWithDetailsHandler;
 
-    public TenderQueryService(ITenderRepository tenderRepository)
+    public TenderQueryService(ITenderRepository tenderRepository, IGetAllTendersQueryHandler getAllTendersQueryHandler, IGetInProcessTendersWithDetailsHandler getInProcessTendersWithDetailsHandler)
     {
         _tenderRepository = tenderRepository;
+        _getAllTendersQueryHandler = getAllTendersQueryHandler;
+        _getInProcessTendersWithDetailsHandler = getInProcessTendersWithDetailsHandler;
     }
 
     public async Task<List<TenderResponseWithActiveStatus>> GetAllTendersAsync()
     {
-        var getAllTender = await _tenderRepository.GetAllTenderAsync();
-        return getAllTender.Select(t => new TenderResponseWithActiveStatus(t.TenderId, t.Title, t.Description, t.TenderDate, t.Budget, t.TenderDate.IsActive()) { Bids = t.Bids, Winner = t.WinnerBid }).ToList();
+        return await _getAllTendersQueryHandler.HandleAsync();
 
     }
 
     public async Task<List<TenderWithDetails>> GetInProcessTendersWithDetailsAsync()
     {
-        var tendersWithDetails = await _tenderRepository.GetInProcessTendersWithDetailsAsync();
-        return tendersWithDetails.Where(t => t.TenderDate.IsActive()).ToList();
+        return await _getInProcessTendersWithDetailsHandler.HandleAsync();
     }
 }

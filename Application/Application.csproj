@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Commands\User\" />
     <Folder Include="Queries\Bid\" />
-    <Folder Include="Queries\Tender\" />
     <Folder Include="Queries\User\" />
   </ItemGroup>
 

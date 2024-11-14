@@ -1,9 +1,14 @@
 #region Using
 using System.Text;
+using Api.Hubs;
 using Api.Middlewares;
+using Application.Commands.Bid.CreateBid;
+using Application.Commands.Tender.CreateTender;
 using Application.Interfaces.Bid;
 using Application.Interfaces.Tender;
 using Application.Interfaces.User;
+using Application.Queries.Tender.GetAllTenders;
+using Application.Queries.Tender.GetInProcessTendersWithDetails;
 using Application.Services.Bid;
 using Application.Services.Tender;
 using Application.Services.User;
@@ -18,13 +23,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 #endregion
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 //    .AddNewtonsoftJson(options =>
 //{
 //    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -57,13 +62,15 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 // Repositories
 builder.Services.AddScoped<ITenderRepository, TenderRepository>();
 builder.Services.AddScoped<IBidRepository, BidRepository>();
-// Services
-builder.Services.AddScoped<ITenderQueryService, TenderQueryService>();
+// command & query handlers
+builder.Services.AddScoped<IGetAllTendersQueryHandler,GetAllTendersQueryHandler>();
+builder.Services.AddScoped<IGetInProcessTendersWithDetailsHandler,GetInProcessTendersWithDetailsHandler>();
+builder.Services.AddScoped<ICreateTenderCommandHandler, CreateTenderCommandHandler>();
+builder.Services.AddScoped<ICreateBidCommandHandler, CreateBidCommandHandler>();
+// services
+builder.Services.AddScoped<IBidCommandService,BidCommandService>();
 builder.Services.AddScoped<ITenderCommandService, TenderCommandService>();
-builder.Services.AddScoped<IBidCommandService, BidCommandService>();
-builder.Services.AddScoped<IBidQueryService, BidQueryService>();
-
-
+builder.Services.AddScoped<ITenderQueryService, TenderQueryService>();
 #endregion
 
 #region JWT
@@ -150,5 +157,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("/notificationhub");
 
 app.Run();

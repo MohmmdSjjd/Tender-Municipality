@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Bid;
+﻿using Application.Commands.Bid.CreateBid;
 using Application.Interfaces.Bid;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +19,7 @@ namespace Api.Controllers
 
         [HttpPost("create")]
         [Authorize(Roles = "Contractor")]
-        public async Task<IActionResult> CreateBidAsync([FromBody] BidRequest request)
+        public async Task<IActionResult> CreateBidAsync([FromBody] CreateBidCommand request)
         {
             var result = await _bidCommandService.CreateBidAsync(request);
             return Ok(result);

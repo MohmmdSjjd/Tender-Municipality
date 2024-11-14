@@ -16,8 +16,11 @@ namespace Domain.Models.Tender
         public string Description { get; }
 
         public TenderDate TenderDate { get; }
+
         public Budget Budget { get; }
-        public List<Bid.Bid> Bids { get;}
+
+        public List<Bid.Bid> Bids { get; } = new();
+
         private Tender()
         {
         }
@@ -29,12 +32,16 @@ namespace Domain.Models.Tender
             Description = description;
             TenderDate = tenderDate;
             Budget = budget;
-            Bids = new List<Bid.Bid>();
         }
 
         public bool CheckBudget(decimal price)
         {
             return Budget.CheckAmount(price);
+        }
+
+        public void AddBid(Bid.Bid bid)
+        {
+            Bids.Add(bid);
         }
     }
 }

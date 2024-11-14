@@ -1,7 +1,6 @@
-﻿using Application.DTOs.Tender;
+﻿using Application.Commands.Tender.CreateTender;
 using Application.Interfaces.Tender;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -10,20 +9,20 @@ namespace Api.Controllers
     [ApiController]
     public class TenderController : ControllerBase
     {
-        private readonly ITenderCommandService _commandService;
+        private readonly ICreateTenderCommandHandler _createTenderCommandHandler;
         private readonly ITenderQueryService _queryService;
 
-        public TenderController(ITenderCommandService commandService,ITenderQueryService queryService)
+        public TenderController(ICreateTenderCommandHandler createTenderCommandHandler,ITenderQueryService queryService)
         {
-            _commandService = commandService;
+            _createTenderCommandHandler = createTenderCommandHandler;
             _queryService = queryService;
-        }
+        }   
 
         [HttpPost("create")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateTenderAsync(TenderRequest request)
+        public async Task<IActionResult> CreateTenderAsync(CreateTenderCommand request)
         {
-            var response = await _commandService.CreateTenderAsync(request);
+            var response = await _createTenderCommandHandler.HandleAsync(request);
             return Ok(response);
         }
 

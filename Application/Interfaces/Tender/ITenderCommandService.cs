@@ -1,14 +1,10 @@
-﻿using Application.DTOs.Tender;
-using Domain.Models.Tender.DTO;
+﻿using Application.Commands.Tender.CreateTender;
+using Application.DTOs.Tender;
 
 namespace Application.Interfaces.Tender
 {
     public interface ITenderCommandService
     {
-        Task<TenderResponseWithMessage> CreateTenderAsync(TenderRequest request);
-    }
-
-
-
-
+        Task<TenderResponseWithMessage> CreateTenderAsync(CreateTenderCommand request);
+    }   
 }
