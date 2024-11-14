@@ -2,8 +2,10 @@
 using System.Text;
 using Api.Hubs;
 using Api.Middlewares;
+using Api.Services.Notification;
 using Application.Commands.Bid.CreateBid;
 using Application.Commands.Tender.CreateTender;
+using Application.Interfaces;
 using Application.Interfaces.Bid;
 using Application.Interfaces.Tender;
 using Application.Interfaces.User;
@@ -71,6 +73,8 @@ builder.Services.AddScoped<ICreateBidCommandHandler, CreateBidCommandHandler>();
 builder.Services.AddScoped<IBidCommandService,BidCommandService>();
 builder.Services.AddScoped<ITenderCommandService, TenderCommandService>();
 builder.Services.AddScoped<ITenderQueryService, TenderQueryService>();
+// SignalR
+builder.Services.AddScoped<INotificationHub, NotificationHubService>();
 #endregion
 
 #region JWT

@@ -23,9 +23,4 @@ public class NotificationHub : Hub
         }
         await base.OnDisconnectedAsync(exception);
     }
-
-    public async Task Create(string message)
-    {
-        await Clients.All.SendAsync("ReceiveMessage", message);
-    }
 }
